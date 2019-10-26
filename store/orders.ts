@@ -1,4 +1,6 @@
 import { Module, StoreonEvents } from 'storeon';
+import { uniqBy } from 'ramda';
+
 import { IState, IStateEvents } from '.';
 
 type ICoordinates = [ number, number ];
@@ -60,7 +62,7 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         activeOrderId: id
     }));
 
-    store.on("orders/append", (state, orders) => ({ orders: [ ...state.orders, ...orders ] }));
+    store.on("orders/append", (state, orders) => ({ orders: uniqBy(({ id }) => id, [ ...state.orders, ...orders ]) }));
 }
 
 export default ordersModule;

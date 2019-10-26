@@ -15,10 +15,12 @@ const Menu: FC = () => {
 
     const handleItemSelect = (id: number) => {
         dispatch("orders/select", id);
-    }
+    };
 
     const renderItem = ({ item: { name, id }, index }: ListRenderItemInfo<IOrder>) => {
-        const color = activeOrderId === id ? "green" : "white";
+        const color = activeOrderId === id
+            ? "blue"
+            : "white";
 
         return (
             <ListItem

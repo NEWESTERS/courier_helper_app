@@ -1,34 +1,46 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { View } from 'react-native';
 import { mapping, dark as darkTheme } from '@eva-design/eva';
-import { ApplicationProvider, ViewPager } from 'react-native-ui-kitten';
+import { ApplicationProvider, TabView, Tab } from 'react-native-ui-kitten';
 import { Provider } from 'storeon/react/context';
 import useStoreon from 'storeon/react'
 
 import Menu from './components/Menu';
 import MapView from './components/Map';
 import store, { IState, IStateEvents } from './store';
+import UserProfile from './components/UserProfile';
 
 const AppPages: FC = () => {
 	const { dispatch, viewPagerIndex } = useStoreon<IState, IStateEvents>("viewPagerIndex");
 
 	return (
-		<ViewPager
+		<TabView
 			selectedIndex={viewPagerIndex}
 			onSelect={(index: number) => { dispatch("ui/switchPage", index) }}
 			style={{ flex: 1 }}
 		>
-			<Menu />
-			<MapView />
-		</ViewPager>
+			<Tab title="Настройки">
+				<UserProfile />
+			</Tab>
+
+			<Tab title="Заказы">
+				<Menu />
+			</Tab>
+			
+			<Tab title="Карта">
+				<MapView />
+			</Tab>
+		</TabView>
 	)
 }
 
 const App: FC = () => {
-	
 	return(
 		<ApplicationProvider mapping={mapping} theme={darkTheme}>
 			<Provider value={store}>
-				<AppPages />
+				<View style={{ paddingTop: 15, flex: 1 }}>
+					<AppPages />
+				</View>
 			</Provider>
 		</ApplicationProvider>
 	)

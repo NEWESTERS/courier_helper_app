@@ -3,7 +3,8 @@ import { IState, IStateEvents } from '.';
 
 export enum ViewPagerIndex {
     List = 0,
-    Map = 1
+    Map = 1,
+    UserProfile = 2
 }
 
 export interface IUIState {

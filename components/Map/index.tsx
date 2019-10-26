@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View } from'react-native';
+import { View, StyleSheet } from'react-native';
 import { WebView } from 'react-native-webview';
 import { Button, Layout, Spinner } from 'react-native-ui-kitten';
 import useStoreon from 'storeon/react';
+
 import { IState, IStateEvents } from '../../store';
 
 const { mapInitLogicString, createMapRouteLogicString } = require('./logic');
@@ -17,14 +18,14 @@ const MapView: React.FC = () => {
             const { start, finish } = orders.find(({ id }) => id === activeOrderId)!;
             webViewRef.current.injectJavaScript(createMapRouteLogicString([ start, finish ]))
         }
-    }, [ activeOrderId ])
+    }, [ activeOrderId ]);
 
     const handleResetClick = () => {
         if(webViewRef.current) {
             webViewRef.current.injectJavaScript(createMapRouteLogicString([]));
             dispatch("orders/select", null);
         }
-    }
+    };
 
     const html = `
         <html>
@@ -41,12 +42,7 @@ const MapView: React.FC = () => {
 
     return (
 	    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 20}}>    
-            <Button onPress={handleResetClick}>Сбросить маршрут</Button>
-
-            { isMapLoading &&
-                <Spinner />
-            }
-            <View style={{ flex: 1, height: "100%", width: "100%" }}>
+            <View style={{ flex: 1, height: "100%", width: "100%", position: "relative" }}>
                 <WebView
                     ref={webViewRef}
                     source={{ html }}
@@ -56,9 +52,25 @@ const MapView: React.FC = () => {
                         }
                     }}
                 />
+
+                <Button onPress={handleResetClick}>Сбросить маршрут</Button>
+
+                <View style={styles.loaderContainer} >
+                    { isMapLoading &&
+                        <Spinner />
+                    }
+                </View>
             </View>
         </Layout>
     )
 }
+
+const styles = StyleSheet.create({
+    loaderContainer: {
+        position: "absolute",
+        top: "50%",
+        left: "50%"
+    }
+});
 
 export default MapView;
