@@ -56,11 +56,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 170,
         width: 300,
-        backgroundColor: "white",
+        backgroundColor: '#e6ebff',
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: 20
+        padding: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
     },
     buttonContainer: {
         flexDirection: "row",

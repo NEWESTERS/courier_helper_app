@@ -8,17 +8,21 @@ interface TPoint {
     y: number;
 }
 
-type ICoordinates = [number, number];
+export type ICoordinates = [number, number];
+
+export enum OrderStatus {
+    Registered = "REGISTERED",
+    InProgress = "IN_PROGRESS",
+    Assigned = "ASSIGNED",
+    Done = "DONE"
+}
 
 export interface IOrder {
     id: number;
     name: string;
-    start: ICoordinates;
-    finish: ICoordinates;
     orderDate: string;
-    status: string;
     registrationDate: string;
-    orderStatus: string;
+    orderStatus: OrderStatus;
     fromLocation: TPoint;
     toLocation: TPoint;
 }
@@ -37,6 +41,18 @@ export interface IOrdersEvents extends StoreonEvents<IOrdersState> {
     'orders/popSuggested': undefined;
     'orders/acceptSuggested': undefined;
 }
+
+const mockOrders: IOrder[] = [
+    {
+        id: 1,
+        name: "Фейковый заказ раз",
+        orderDate: "27.10.2019",
+        registrationDate: "26.10.2019",
+        orderStatus: OrderStatus.Registered,
+        fromLocation: { x: 40, y: 40 },
+        toLocation: { x: 80, y: 80 }
+    }
+]
 
 const initOrdersState: IOrdersState = {
     activeOrderId: null,
@@ -69,9 +85,9 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         suggestedOrders: suggestedOrders.slice(1, suggestedOrders.length - 1)
     }));
 
-    store.on("orders/acceptSuggested", ({ suggestedOrders }) => ({
-        suggestedOrders: suggestedOrders.slice(1, suggestedOrders.length - 1)
-    }));
+    store.on("orders/acceptSuggested", () => {
+        store.dispatch("orders/popSuggested");
+    });
 
     store.on("orders/append", ({ orders }, newOrders) => ({
         orders: uniqBy(({ id }) => id, [ ...orders, ...newOrders ])

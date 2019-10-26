@@ -5,7 +5,7 @@ const Ball = {
     width: 10,
     borderRadius: 7,
     marginLeft: 2,
-    marginRight: 20
+    marginRight: 10
 };
 
 export const styleStatus = StyleSheet.create({
@@ -16,12 +16,13 @@ export const styleStatus = StyleSheet.create({
         justifyContent: 'space-between'
     },
     textStatus:{
-        width: 128,
+        width: 135,
         padding: 4,
         borderRadius: 5,
         fontWeight: 'bold',
         fontSize: 12,
         opacity: .8,
+        textAlign: "center"
     },
     Bar: {
         display: 'flex',

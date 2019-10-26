@@ -1,35 +1,37 @@
 import * as React from 'react';
 import {View} from "react-native";
 import {Text} from "react-native-ui-kitten";
+
 import {styleStatus} from "./StatusBar.style";
+import { OrderStatus } from '../../store/orders';
 
 interface IProps {
-    status: string
+    status: OrderStatus
 }
 
 const mapStatusToBar = {
-    REGISTERED:{
+    [OrderStatus.Registered]:{
         text: 'ЗАРЕГЕСТРИРОВАН',
         step: 1,
         style:{
             backgroundColor: '#97aeb2'
         }
     },
-    IN_PROGRESS:{
+    [OrderStatus.InProgress]:{
         text: 'ВЗЯТ В РАБОТУ',
         step: 2,
         style:{
             backgroundColor: '#3caea3'
         }
     },
-    ASSIGNED:{
+    [OrderStatus.Assigned]:{
         text: 'ДОСТАВЛЯЕМ ЗАКАЗ',
         step: 3,
         style:{
             backgroundColor: '#f6d55c'
         }
     },
-    DONE:{
+    [OrderStatus.Done]:{
         text: 'ЗАКАЗ ДОСТАВЛЕН',
         step: 4,
         style:{
@@ -38,10 +40,7 @@ const mapStatusToBar = {
     }
 };
 
-type State = Readonly<{}>;
-
-class StatusOrderBar extends React.Component<IProps, State> {
-
+class StatusOrderBar extends React.Component<IProps> {
     makeBarBalls(statusNum:number){
         let components = [];
         for(let i = 0; i < statusNum; i++){
@@ -60,7 +59,13 @@ class StatusOrderBar extends React.Component<IProps, State> {
                 <View style={styleStatus.Bar}>
                     {this.makeBarBalls(mapStatusToBar[status].step)}
                 </View>
-                <Text style={{...styleStatus.textStatus, ...mapStatusToBar[status].style}}>{mapStatusToBar[status].text} </Text>
+
+                <Text
+                    style={[
+                        styleStatus.textStatus,
+                        mapStatusToBar[status].style
+                    ]}
+                >{mapStatusToBar[status].text} </Text>
             </View>
         );
     }

@@ -39,6 +39,7 @@ export const style = StyleSheet.create({
             height: 20,
             fontSize: 20,
             fontWeight: '600',
+            color: "black"
         },
         StatusBar:{
             display: 'flex',
@@ -51,7 +52,8 @@ export const style = StyleSheet.create({
         },
         Date:{
             paddingLeft: 5,
-            height: 20
+            height: 20,
+            color: "black"
         }
 
 });

@@ -19,13 +19,12 @@ const Menu: FC = () => {
     };
 
     const renderOrders = (orders: IOrder[]) =>
-        orders.map(({ id, name, orderStatus, registrationDate })=>
+        orders.map(order =>
             <OrderCard
-                onPress={() => handleItemSelect(id)}
-                key={id}
-                name={name}
-                status={orderStatus}
-                orderDate={registrationDate}
+                key={order.id}
+                onPress={() => handleItemSelect(order.id)}
+                order={order}
+                isActive={order.id === activeOrderId}
             />
         );
 

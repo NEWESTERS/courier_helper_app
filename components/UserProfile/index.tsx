@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { View, Slider, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import Slider from '@react-native-community/slider';
 import { Layout, CheckBox } from 'react-native-ui-kitten';
 
 const weekDays = {
@@ -32,38 +33,48 @@ const UserProfile: FC = () => {
     }
 
     return(
-	    <Layout style={{flex: 1, justifyContent: "flex-start", alignItems: "center", padding: 20}}>
-            <View style={styles.container}>
-                <Text style={styles.label}>Радиус поиска заказов: {searchRadius} км</Text>
-                <Slider
-                    minimumValue={1}
-                    maximumValue={100}
-                    style={{ width: "100%" }}
-                    onValueChange={value => setSearchRadius(Math.round(value))}
-                    value={searchRadius}
-                />
-            </View>
-
-            <View style={styles.container}>
-                <Text style={styles.label}>График работы</Text>
-
-                <View>
-                    { Object.entries(weekDays).map(([ key, value ]) =>
-                        <CheckBox
-                            key={key}
-                            style={styles.checkbox}
-                            onChange={switchScheduleDay(key as keyof typeof schedule)}
-                            text={value}
-                            checked={schedule[key as keyof typeof schedule]}
-                        />
-                    )}
+	    <Layout style={styles.layout}>
+            <ScrollView style={{ width: "100%", height: "100%" }}>
+                <View style={styles.container}>
+                    <Text style={styles.label}>Радиус поиска заказов: {searchRadius} км</Text>
+                    <Slider
+                        minimumValue={1}
+                        maximumValue={100}
+                        style={{ width: "100%" }}
+                        onValueChange={value => setSearchRadius(Math.round(value))}
+                        value={searchRadius}
+                    />
                 </View>
-            </View>
+
+                <View style={styles.container}>
+                    <Text style={styles.label}>График работы</Text>
+
+                    <View>
+                        { Object.entries(weekDays).map(([ key, value ]) =>
+                            <CheckBox
+                                key={key}
+                                style={styles.checkbox}
+                                onChange={switchScheduleDay(key as keyof typeof schedule)}
+                                text={value}
+                                checked={schedule[key as keyof typeof schedule]}
+                            />
+                        )}
+                    </View>
+                </View>
+            </ScrollView>
         </Layout>
     )
 };
 
 const styles = StyleSheet.create({
+    layout: {
+        flex: 1,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        padding: 20,
+        height: "100%"
+    },
+
     label: {
         color: "white",
         fontSize: 16,
