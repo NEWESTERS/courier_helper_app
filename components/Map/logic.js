@@ -34,8 +34,9 @@ const mapRouteLogic = () => {
         params: {
             // Ограничение на максимальное количество маршрутов, возвращаемое маршрутизатором.
             results: 2,
-            avoidTrafficJams: true
-        }
+            avoidTrafficJams: true,
+            routingMode: $RM
+        },
     }, {
         // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
         boundsAutoApply: true
@@ -45,6 +46,6 @@ const mapRouteLogic = () => {
         .add(route);
 }
 
-const createMapRouteLogicString = (rp) => `(${mapRouteLogic.toString().replace("$RP", JSON.stringify(rp))})()`;
+const createMapRouteLogicString = (rp, rm) => `(${mapRouteLogic.toString().replace("$RP", JSON.stringify(rp)).replace("$RM", JSON.stringify(rm))})()`;
 
 export { mapInitLogicString, createMapRouteLogicString };

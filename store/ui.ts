@@ -2,9 +2,9 @@ import { Module, StoreonEvents } from 'storeon';
 import { IState, IStateEvents } from '.';
 
 export enum ViewPagerIndex {
-    List = 0,
-    Map = 1,
-    UserProfile = 2
+    UserProfile,
+    List,
+    Map,
 }
 
 export interface IUIState {
@@ -24,7 +24,7 @@ const uiModule: Module<IState, IStateEvents> = store => {
 
     store.on("ui/switchPage", (_state, index) => ({ viewPagerIndex: index }));
 
-    store.on("orders/select", () => ({ viewPagerIndex: ViewPagerIndex.Map }))
+    store.on("orders/select", () => ({ viewPagerIndex: ViewPagerIndex.Map }));
 }
 
 export default uiModule;

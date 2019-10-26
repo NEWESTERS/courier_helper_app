@@ -19,7 +19,7 @@ const Menu: FC = () => {
 
     const renderItem = ({ item: { name, id }, index }: ListRenderItemInfo<IOrder>) => {
         const color = activeOrderId === id
-            ? "blue"
+            ? "#355D96"
             : "white";
 
         return (

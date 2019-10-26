@@ -15,12 +15,16 @@ export interface IOrder {
 export interface IOrdersState {
     activeOrderId: number | null;
     orders: IOrder[];
+    suggestedOrders: IOrder[];
 }
 
 export interface IOrdersEvents extends StoreonEvents<IOrdersState> {
     'orders/append': IOrder[];
     'orders/request': undefined;
     'orders/select': number | null;
+    'orders/pushSuggested': IOrder;
+    'orders/popSuggested': undefined;
+    'orders/acceptSuggested': undefined;
 }
 
 const mockOrders: IOrder[] = [
@@ -46,7 +50,8 @@ const mockOrders: IOrder[] = [
 
 const initOrdersState: IOrdersState = {
     activeOrderId: null,
-    orders: []
+    orders: [],
+    suggestedOrders: []
 }
 
 const ordersModule: Module<IState, IStateEvents> = store => {
@@ -62,7 +67,21 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         activeOrderId: id
     }));
 
-    store.on("orders/append", (state, orders) => ({ orders: uniqBy(({ id }) => id, [ ...state.orders, ...orders ]) }));
+    store.on("orders/pushSuggested", ({ suggestedOrders }, order) => ({
+        suggestedOrders: [ ...suggestedOrders, order ]
+    }));
+
+    store.on("orders/popSuggested", ({ suggestedOrders }) => ({
+        suggestedOrders: suggestedOrders.slice(1, suggestedOrders.length - 1)
+    }));
+
+    store.on("orders/acceptSuggested", ({ suggestedOrders }) => ({
+        suggestedOrders: suggestedOrders.slice(1, suggestedOrders.length - 1)
+    }));
+
+    store.on("orders/append", ({ orders }, newOrders) => ({
+        orders: uniqBy(({ id }) => id, [ ...orders, ...newOrders ])
+    }));
 }
 
 export default ordersModule;

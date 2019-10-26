@@ -51,6 +51,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CourierHelperApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CourierHelperApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CourierHelperApp/main.m; sourceTree = "<group>"; };
+		19E70B572364DF21007105B9 /* CourierHelperApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CourierHelperApp.entitlements; path = CourierHelperApp/CourierHelperApp.entitlements; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* CourierHelperApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CourierHelperApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* CourierHelperApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CourierHelperApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3AB4160D562FEAA4959066 /* Pods-CourierHelperApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CourierHelperApp-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CourierHelperApp-tvOSTests/Pods-CourierHelperApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		13B07FAE1A68108700A75B9A /* CourierHelperApp */ = {
 			isa = PBXGroup;
 			children = (
+				19E70B572364DF21007105B9 /* CourierHelperApp.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -789,6 +791,7 @@
 			baseConfigurationReference = 4628BA227CC98928A0063429 /* Pods-CourierHelperApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CourierHelperApp/CourierHelperApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 66677W6JRJ;
@@ -801,6 +804,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CourierHelperApp;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -810,6 +815,7 @@
 			baseConfigurationReference = F1A7C05FC8F1D679BC66C26D /* Pods-CourierHelperApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CourierHelperApp/CourierHelperApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 66677W6JRJ;
 				INFOPLIST_FILE = CourierHelperApp/Info.plist;
@@ -821,6 +827,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CourierHelperApp;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

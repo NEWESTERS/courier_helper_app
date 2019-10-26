@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, StyleSheet } from'react-native';
 import { WebView } from 'react-native-webview';
-import { Button, Layout, Spinner } from 'react-native-ui-kitten';
+import { Button, Layout, Spinner, ButtonGroup } from 'react-native-ui-kitten';
 import useStoreon from 'storeon/react';
 
 import { IState, IStateEvents } from '../../store';
@@ -11,18 +11,19 @@ const { mapInitLogicString, createMapRouteLogicString } = require('./logic');
 const MapView: React.FC = () => {
     const webViewRef = useRef<WebView | null>(null),
         [ isMapLoading, setIsMapLoading ] = useState(true),
-        { dispatch, activeOrderId, orders } = useStoreon<IState, IStateEvents>("activeOrderId", "orders");
+        { dispatch, activeOrderId, orders } = useStoreon<IState, IStateEvents>("activeOrderId", "orders"),
+        [ routingMode, setRoutingMode ] = useState<"auto" | "pedestrian" | "bicycle">("auto");
 
     useEffect(() => {
         if(activeOrderId !== null && webViewRef.current) {
             const { start, finish } = orders.find(({ id }) => id === activeOrderId)!;
-            webViewRef.current.injectJavaScript(createMapRouteLogicString([ start, finish ]))
+            webViewRef.current.injectJavaScript(createMapRouteLogicString([ start, finish ], routingMode))
         }
-    }, [ activeOrderId ]);
+    }, [ activeOrderId, routingMode ]);
 
     const handleResetClick = () => {
         if(webViewRef.current) {
-            webViewRef.current.injectJavaScript(createMapRouteLogicString([]));
+            webViewRef.current.injectJavaScript(createMapRouteLogicString([], routingMode));
             dispatch("orders/select", null);
         }
     };
@@ -43,6 +44,12 @@ const MapView: React.FC = () => {
     return (
 	    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 20}}>    
             <View style={{ flex: 1, height: "100%", width: "100%", position: "relative" }}>
+                <ButtonGroup>
+                    <Button onPress={() => setRoutingMode("pedestrian")}>Пешком</Button>
+                    <Button onPress={() => setRoutingMode("auto")}>На машине</Button>
+                    <Button onPress={() => setRoutingMode("bicycle")}>На велосипеде</Button>
+                </ButtonGroup>
+
                 <WebView
                     ref={webViewRef}
                     source={{ html }}

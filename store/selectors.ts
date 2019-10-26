@@ -11,3 +11,11 @@ export const useSelectActiveOrder = () => {
         return null;
     }
 }
+
+export const useSelectSuggestedOrder = () => {
+    const { suggestedOrders } = useStoreon<IState, IStateEvents>("suggestedOrders");
+
+    return suggestedOrders.length > 0
+        ? suggestedOrders[0]
+        : null;
+}

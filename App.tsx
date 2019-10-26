@@ -9,6 +9,7 @@ import Menu from './components/Menu';
 import MapView from './components/Map';
 import store, { IState, IStateEvents } from './store';
 import UserProfile from './components/UserProfile';
+import OrderSuggestionModal from './components/OrderSuggestionModal';
 
 const AppPages: FC = () => {
 	const { dispatch, viewPagerIndex } = useStoreon<IState, IStateEvents>("viewPagerIndex");
@@ -38,8 +39,9 @@ const App: FC = () => {
 	return(
 		<ApplicationProvider mapping={mapping} theme={darkTheme}>
 			<Provider value={store}>
-				<View style={{ paddingTop: 15, flex: 1 }}>
+				<View style={{ paddingTop: 15, flex: 1, position: "relative" }}>
 					<AppPages />
+					<OrderSuggestionModal />
 				</View>
 			</Provider>
 		</ApplicationProvider>
