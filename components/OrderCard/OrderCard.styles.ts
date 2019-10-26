@@ -28,6 +28,8 @@ export const style = StyleSheet.create({
     Avatar:{
         width: 75,
         height: 75,
+        borderWidth: 5,
+        borderColor: "#355dfa"
     },
     Description:{
         padding: 12,
