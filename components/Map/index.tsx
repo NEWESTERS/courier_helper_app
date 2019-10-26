@@ -16,8 +16,8 @@ const MapView: React.FC = () => {
 
     useEffect(() => {
         if(activeOrderId !== null && webViewRef.current) {
-            const { start, finish } = orders.find(({ id }) => id === activeOrderId)!;
-            webViewRef.current.injectJavaScript(createMapRouteLogicString([ start, finish ], routingMode))
+            const { fromLocation, toLocation } = orders.find(({ id }) => id === activeOrderId)!;
+            webViewRef.current.injectJavaScript(createMapRouteLogicString([ [fromLocation.x, fromLocation.y], [toLocation.x, toLocation.y] ]))
         }
     }, [ activeOrderId, routingMode ]);
 

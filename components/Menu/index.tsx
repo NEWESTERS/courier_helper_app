@@ -1,9 +1,10 @@
-import React, { FC, useEffect } from 'react';
-import { Layout, List, ListItem } from 'react-native-ui-kitten';
-import { ListRenderItemInfo, StyleSheet, Text } from 'react-native';
+import React, {FC, useEffect} from 'react';
+import {Layout} from 'react-native-ui-kitten';
+import {ScrollView} from 'react-native'
 import useStoreon from 'storeon/react';
 
 import { IState, IStateEvents } from '../../store';
+import OrderCard from "../OrderCard";
 import { IOrder } from '../../store/orders';
 
 const Menu: FC = () => {
@@ -17,37 +18,24 @@ const Menu: FC = () => {
         dispatch("orders/select", id);
     };
 
-    const renderItem = ({ item: { name, id }, index }: ListRenderItemInfo<IOrder>) => {
-        const color = activeOrderId === id
-            ? "#355D96"
-            : "white";
-
-        return (
-            <ListItem
-                key={index}
+    const renderOrders = (orders: IOrder[]) =>
+        orders.map(({ id, name, orderStatus, registrationDate })=>
+            <OrderCard
                 onPress={() => handleItemSelect(id)}
-            >   
-                <Text style={{ color }}>{name}</Text>
-            </ListItem>
-        )
-    };
+                key={id}
+                name={name}
+                status={orderStatus}
+                orderDate={registrationDate}
+            />
+        );
 
     return (
-        <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 20}}>
-            <List
-                style={styles.list}
-                data={orders}
-                renderItem={renderItem}
-            />
+        <Layout style={{flex: 1, paddingTop: 8}}>
+            <ScrollView>
+                {renderOrders(orders)}
+            </ScrollView>
         </Layout>
     )
 };
-
-const styles = StyleSheet.create({
-    list: {
-        height: "100%",
-        width: "100%"
-    }
-})
 
 export default Menu;
