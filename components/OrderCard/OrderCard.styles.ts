@@ -52,6 +52,15 @@ export const style = StyleSheet.create({
             fontWeight: '400',
             height: 35
         },
+    Price:{
+        display: 'flex',
+        flexDirection:'row',
+        alignItems: 'center',
+        paddingLeft: 135,
+        fontSize: 15,
+        fontWeight: '400',
+        height: 35
+    },
         Date:{
             paddingLeft: 5,
             height: 20,

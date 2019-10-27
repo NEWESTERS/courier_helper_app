@@ -20,7 +20,7 @@ const Menu: FC = () => {
 
     const handleItemSelect = (id: number) => {
         dispatch("orders/select", id);
-        window.setInterval(() => pushNotifications.orderAssigned(), 2000);
+        // window.setInterval(() => pushNotifications.orderAssigned(), 2000);
     };
 
     const renderOrders = (orders: IOrder[]) =>
@@ -35,11 +35,10 @@ const Menu: FC = () => {
 
     return (
         <Layout style={{flex: 1, paddingTop: 8}}>
-            <SockJsClient url='http://localhost:8080/orders' topics={['/topic/order']}
-                          onMessage={(msg) => { console.log(msg); }}
-                          ref={ (client) => { this.clientRef = client }} />
+            <SockJsClient url='http://ruavuai-zos6.localhost.run/orders' topics={['/topic/order']}
+                          onMessage={msg => { dispatch("orders/append", [msg]); }}/>
             <ScrollView>
-                {renderOrders(orders)}
+                {orders && renderOrders(orders)}
             </ScrollView>
         </Layout>
     )

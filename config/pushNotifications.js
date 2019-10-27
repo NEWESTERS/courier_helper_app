@@ -54,11 +54,11 @@ const orderInProgress = () => {
     });
 };
 
-const orderInProgress = () => {
+const orderClosed = () => {
     PushNotification.localNotification({
         /* iOS and Android properties */
         title: "Статус заказа", // (optional)
-        message: "Курьер забрал товар и направляется к вам", // (required)
+        message: "Заказ закрыт", // (required)
     });
 };
 
@@ -66,4 +66,5 @@ export {
     configure,
     orderAssigned,
     orderInProgress,
+    orderClosed,
 };

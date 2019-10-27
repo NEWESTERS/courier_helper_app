@@ -56,9 +56,6 @@ class StatusOrderBar extends React.Component<IProps> {
         const { status } = this.props;
         return (
             <View style={styleStatus.Wrapper}>
-                <View style={styleStatus.Bar}>
-                    {this.makeBarBalls(mapStatusToBar[status].step)}
-                </View>
 
                 <Text
                     style={[

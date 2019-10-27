@@ -40,7 +40,9 @@ export interface IOrdersEvents extends StoreonEvents<IOrdersState> {
     'orders/pushSuggested': IOrder;
     'orders/popSuggested': undefined;
     'orders/acceptSuggested': undefined;
-}
+    'orders/set': undefined;
+
+                                                     }
 
 const mockOrders: IOrder[] = [
     {
@@ -67,7 +69,7 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         fetch("http://ruavuai-zos6.localhost.run/api/orders/").then(response => {
             if (response.ok) {
                 response.json().then(json => {
-                    store.dispatch("orders/append", json);
+                    store.dispatch("orders/set", json);
                 });
             }
         });
@@ -91,6 +93,10 @@ const ordersModule: Module<IState, IStateEvents> = store => {
 
     store.on("orders/append", ({orders}, newOrders) => ({
         orders: uniqBy(({id}) => id, [...orders, ...newOrders])
+    }));
+
+    store.on("orders/set", ({orders}, newOrders) => ({
+        orders: newOrders
     }));
 }
 
