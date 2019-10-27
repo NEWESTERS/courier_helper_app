@@ -37,7 +37,7 @@ const AppPages: FC = () => {
     )
 }
 
-var ws = new WebSocket('ws://localhost:8080/orders/topic/order');
+var ws = new WebSocket('ws://ruavuai-zos6.localhost.run/orders/topic/order');
 
 ws.onopen = () => {
     // connection opened

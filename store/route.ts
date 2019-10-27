@@ -29,7 +29,7 @@ const routeModule: Module<IState, IStateEvents> = store => {
 
     store.on("route/reset", state => ({
         ...state, points: initRouteState.points
-    }))
+    }));
 }
 
 export default routeModule;

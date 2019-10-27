@@ -2,12 +2,13 @@ import React, {FC, useEffect} from 'react';
 import {Layout} from 'react-native-ui-kitten';
 import {ScrollView} from 'react-native'
 import useStoreon from 'storeon/react';
+// const SockJsClient = require('react-stomp');
+import SockJsClient from 'react-stomp';
 
 import {IState, IStateEvents} from '../../store';
 import OrderCard from "../OrderCard";
 import {IOrder} from '../../store/orders';
 import {pushNotifications} from "../../config";
-import SockJsClient from 'react-stomp';
 
 pushNotifications.configure();
 
@@ -20,7 +21,7 @@ const Menu: FC = () => {
 
     const handleItemSelect = (id: number) => {
         dispatch("orders/select", id);
-        // window.setInterval(() => pushNotifications.orderAssigned(), 2000);
+        window.setInterval(() => pushNotifications.orderAssigned(), 2000);
     };
 
     const renderOrders = (orders: IOrder[]) =>
@@ -36,9 +37,9 @@ const Menu: FC = () => {
     return (
         <Layout style={{flex: 1, paddingTop: 8}}>
             <SockJsClient url='http://ruavuai-zos6.localhost.run/orders' topics={['/topic/order']}
-                          onMessage={msg => { dispatch("orders/append", [msg]); }}/>
+                          onMessage={(msg: any) => { dispatch("orders/append", [msg]); }}/>
             <ScrollView>
-                {orders && renderOrders(orders)}
+                {renderOrders(orders)}
             </ScrollView>
         </Layout>
     )

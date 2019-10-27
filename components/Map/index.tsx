@@ -3,8 +3,11 @@ import { View, StyleSheet } from'react-native';
 import { WebView } from 'react-native-webview';
 import { Button, Layout, Spinner, ButtonGroup } from 'react-native-ui-kitten';
 import useStoreon from 'storeon/react';
+import { isNil } from 'ramda';
 
 import { IState, IStateEvents } from '../../store';
+import OrderInfo from './OrderInfo';
+import { useSelectActiveRoute } from '../../store/selectors';
 
 const { mapInitLogicString, createMapRouteLogicString } = require('./logic');
 
@@ -12,14 +15,27 @@ const MapView: React.FC = () => {
     const webViewRef = useRef<WebView | null>(null),
         [ isMapLoading, setIsMapLoading ] = useState(true),
         { dispatch, activeOrderId, orders } = useStoreon<IState, IStateEvents>("activeOrderId", "orders"),
-        [ routingMode, setRoutingMode ] = useState<"auto" | "pedestrian" | "bicycle">("auto");
+        [ routingMode, setRoutingMode ] = useState<"auto" | "pedestrian" | "bicycle">("auto"),
+        route = useSelectActiveRoute();
 
     useEffect(() => {
-        if(activeOrderId !== null && webViewRef.current) {
-            const { fromLocation, toLocation } = orders.find(({ id }) => id === activeOrderId)!;
-            webViewRef.current.injectJavaScript(createMapRouteLogicString([ [fromLocation.x, fromLocation.y], [toLocation.x, toLocation.y] ]))
+        if(isNil(webViewRef.current)) {
+            return;
         }
-    }, [ activeOrderId, routingMode ]);
+
+        if(!isNil(activeOrderId)) {
+            const { fromLocation, toLocation } = orders.find(({ id }) => id === activeOrderId)!;
+            webViewRef.current.injectJavaScript(
+                createMapRouteLogicString([
+                    [fromLocation.x, fromLocation.y], [toLocation.x, toLocation.y],
+                ], routingMode)
+            )
+        } else if(!isNil(route)) {
+            webViewRef.current.injectJavaScript(
+                createMapRouteLogicString(route, routingMode)
+            )
+        }
+    }, [ activeOrderId, route, routingMode ]);
 
     const handleResetClick = () => {
         if(webViewRef.current) {
@@ -60,13 +76,15 @@ const MapView: React.FC = () => {
                     }}
                 />
 
-                <Button onPress={handleResetClick}>Сбросить маршрут</Button>
-
                 <View style={styles.loaderContainer} >
                     { isMapLoading &&
                         <Spinner />
                     }
                 </View>
+
+                <OrderInfo
+                    onReset={handleResetClick}
+                />                
             </View>
         </Layout>
     )
