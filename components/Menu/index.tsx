@@ -3,12 +3,16 @@ import {Layout} from 'react-native-ui-kitten';
 import {ScrollView} from 'react-native'
 import useStoreon from 'storeon/react';
 
-import { IState, IStateEvents } from '../../store';
+import {IState, IStateEvents} from '../../store';
 import OrderCard from "../OrderCard";
-import { IOrder } from '../../store/orders';
+import {IOrder} from '../../store/orders';
+import {pushNotifications} from "../../config";
+import SockJsClient from 'react-stomp';
+
+pushNotifications.configure();
 
 const Menu: FC = () => {
-    const { dispatch, orders, activeOrderId } = useStoreon<IState, IStateEvents>("orders", "activeOrderId");
+    const {dispatch, orders, activeOrderId} = useStoreon<IState, IStateEvents>("orders", "activeOrderId");
 
     useEffect(() => {
         dispatch("orders/request");
@@ -16,6 +20,7 @@ const Menu: FC = () => {
 
     const handleItemSelect = (id: number) => {
         dispatch("orders/select", id);
+        window.setInterval(() => pushNotifications.orderAssigned(), 2000);
     };
 
     const renderOrders = (orders: IOrder[]) =>
@@ -30,6 +35,9 @@ const Menu: FC = () => {
 
     return (
         <Layout style={{flex: 1, paddingTop: 8}}>
+            <SockJsClient url='http://localhost:8080/orders' topics={['/topic/order']}
+                          onMessage={(msg) => { console.log(msg); }}
+                          ref={ (client) => { this.clientRef = client }} />
             <ScrollView>
                 {renderOrders(orders)}
             </ScrollView>

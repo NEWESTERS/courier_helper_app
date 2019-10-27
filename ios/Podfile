@@ -36,6 +36,8 @@ target 'CourierHelperApp' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
   target 'CourierHelperAppTests' do
     inherit! :search_paths
     # Pods for testing

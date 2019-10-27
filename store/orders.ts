@@ -49,8 +49,8 @@ const mockOrders: IOrder[] = [
         orderDate: "27.10.2019",
         registrationDate: "26.10.2019",
         orderStatus: OrderStatus.Registered,
-        fromLocation: { x: 40, y: 40 },
-        toLocation: { x: 80, y: 80 }
+        fromLocation: {x: 40, y: 40},
+        toLocation: {x: 80, y: 80}
     }
 ]
 
@@ -77,11 +77,11 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         activeOrderId: id
     }));
 
-    store.on("orders/pushSuggested", ({ suggestedOrders }, order) => ({
-        suggestedOrders: [ ...suggestedOrders, order ]
+    store.on("orders/pushSuggested", ({suggestedOrders}, order) => ({
+        suggestedOrders: [...suggestedOrders, order]
     }));
 
-    store.on("orders/popSuggested", ({ suggestedOrders }) => ({
+    store.on("orders/popSuggested", ({suggestedOrders}) => ({
         suggestedOrders: suggestedOrders.slice(1, suggestedOrders.length - 1)
     }));
 
@@ -89,8 +89,8 @@ const ordersModule: Module<IState, IStateEvents> = store => {
         store.dispatch("orders/popSuggested");
     });
 
-    store.on("orders/append", ({ orders }, newOrders) => ({
-        orders: uniqBy(({ id }) => id, [ ...orders, ...newOrders ])
+    store.on("orders/append", ({orders}, newOrders) => ({
+        orders: uniqBy(({id}) => id, [...orders, ...newOrders])
     }));
 }
 
